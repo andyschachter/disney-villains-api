@@ -30,8 +30,6 @@ const addNewVillain = async (request, response) => {
 
   const villain = await models.villains.create(newVillain)
 
-  // teams.push(newTeam)
-
   return response.status(201).send(villain)
 }
 
