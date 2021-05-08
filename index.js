@@ -1,14 +1,16 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const { getAllVillains, getVillain } = require('./controller/villains')
+const { getAllVillains, getVillainBySlug, addNewVillain } = require('./controller/villains')
 
 const app = express()
 
 app.get('/villains', getAllVillains)
 
-app.get('/villains/:slug', getVillain)
+app.get('/villains/:slug', getVillainBySlug)
 
 app.use(bodyParser.json())
+
+app.post('/villains', addNewVillain)
 
 app.all('*', (request, response) => {
   return response.sendStatus(404)
