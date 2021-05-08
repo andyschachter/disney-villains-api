@@ -1,7 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const { getAllVillains } = require('./controller/villains')
 
 const app = express()
+
+app.get('/villains', getAllVillains)
 
 app.use(bodyParser.json())
 
