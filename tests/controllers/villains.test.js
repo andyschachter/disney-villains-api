@@ -64,5 +64,31 @@ describe('Villains Controller', () => {
       expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'gaston' } })
       expect(stubbedSend).to.have.been.calledWith(singleVillain)
     })
+
+    it('returns a 404 error when no villain is found', async () => {
+      stubbedFindOne.returns(null)
+      const request = { params: { slug: 'not-found' } }
+      const stubbedSendStatus = sinon.stub()
+      const response = { sendStatus: stubbedSendStatus }
+
+      await getVillainBySlug(request, response)
+
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'not-found' } })
+      expect(stubbedSendStatus).to.have.been.calledWith(404)
+    })
+
+    it('returns a 500 error with a message', async () => {
+      stubbedFindOne.throws('ERROR')
+      const request = { params: { slug: 'error-id' } }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+
+      await getVillainBySlug(request, response)
+
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'error-id' } })
+      expect(stubbedStatus).to.have.been.calledWith(500)
+      expect(stubbedSend).to.have.been.calledWith('unable to retrieve villain, please try again')
+    })
   })
 })
