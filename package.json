@@ -6,8 +6,12 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "eslint": "^7.26.0",
-    "nodemon": "^2.0.7"
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.7",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0"
   },
   "name": "disney-villains-api",
   "description": "In this two part exercise you are tasked with create a REST API for accessing Disney Villain data, complete with test suite.",
