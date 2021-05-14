@@ -26,9 +26,16 @@ describe('Villains Controller', () => {
     stubbedCreate.resetBehavior()
   })
 
-  describe('Get All Teams', () => {
-    it('returns list of all villains in database calling response.send for the specified list', () => {
+  describe('Get All Villains', () => {
+    it('returns list of all villains in database calling response.send for the specified list', async () => {
       stubbedFindAll.returns(villainsList)
+      const stubbedSend = sinon.stub()
+      const response = { send: stubbedSend }
+
+      await getAllVillains({}, response)
+
+      expect(stubbedFindAll).to.have.callCount(1)
+      expect(stubbedSend).to.have.been.calledWith(villainsList)
     })
   })
 })
