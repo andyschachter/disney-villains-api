@@ -2,7 +2,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const models = require('../../models')
-const { villainsList, singleVillain } = require('../mocks/villains')
+const { villainsList, singleVillain, singleNotVillain, wrongVillain } = require('../mocks/villains')
 const { before, afterEach, describe, it } = require('mocha')
 const { getAllVillains, getVillainBySlug, addNewVillain } = require('../../controller/villains')
 
