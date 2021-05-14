@@ -6,7 +6,7 @@ const getAllVillains = async (request, response) => {
 
     return response.send(villains)
   } catch (error) {
-    return response.send(500).send('Unable to retrieve team list')
+    return response.status(500).send('Unable to retrieve list of villains')
   }
 }
 
