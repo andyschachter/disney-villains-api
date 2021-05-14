@@ -50,4 +50,19 @@ describe('Villains Controller', () => {
       expect(stubbedSend).to.have.been.calledWith('Unable to retrieve list of villains')
     })
   })
+
+  describe('Get One Villain', () => {
+    it('Returns a villain using response.send() when called with a corresponding slug', async () => {
+      const request = { params: { slug: 'gaston' } }
+      const stubbedSend = sinon.stub()
+      const response = { send: stubbedSend }
+
+      stubbedFindOne.returns(singleVillain)
+
+      await getVillainBySlug(request, response)
+
+      expect(stubbedFindOne).to.have.been.calledWith({ where: { slug: 'gaston' } })
+      expect(stubbedSend).to.have.been.calledWith(singleVillain)
+    })
+  })
 })
