@@ -91,4 +91,46 @@ describe('Villains Controller', () => {
       expect(stubbedSend).to.have.been.calledWith('unable to retrieve villain, please try again')
     })
   })
+
+  describe('Add New Villain', () => {
+    it('accepts details for new villain and saves them as villain into database, returning the new entry', async () => {
+      stubbedCreate.returns(singleVillain)
+      const request = { body: singleVillain }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+
+      await addNewVillain(request, response)
+
+      expect(stubbedCreate).to.have.been.calledWith(singleVillain)
+      expect(stubbedStatus).to.have.been.calledWith(201)
+      expect(stubbedSend).to.have.been.calledWith(singleVillain)
+    })
+
+    it('returns 400 error when required fields not found', async () => {
+      stubbedCreate.returns('Error')
+      const request = { body: singleNotVillain }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+
+      await addNewVillain(request, response)
+
+      expect(stubbedStatus).to.have.been.calledWith(400)
+      expect(stubbedSend).to.have.been.calledWith('The following fields are required: name, movie, slug')
+    })
+
+    it('returns a 500 error with message when unable to add new team', async () => {
+      stubbedCreate.throws('Error')
+      const request = { body: wrongVillain }
+      const stubbedSend = sinon.stub()
+      const stubbedStatus = sinon.stub().returns({ send: stubbedSend })
+      const response = { status: stubbedStatus }
+
+      await addNewVillain(request, response)
+
+      expect(stubbedStatus).to.have.been.calledWith(500)
+      expect(stubbedSend).to.have.been.calledWith('unable to add new villain, please try again')
+    })
+  })
 })
