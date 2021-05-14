@@ -23,22 +23,26 @@ const getVillainBySlug = async (request, response) => {
 }
 
 const addNewVillain = async (request, response) => {
-  const {
-    name, movie, slug
-  } = request.body
+  try {
+    const {
+      name, movie, slug
+    } = request.body
 
-  if (!name || !movie || !slug) {
-    return response.status(400)
-      .send('The following fields are required: name, movie, slug')
+    if (!name || !movie || !slug) {
+      return response.status(400)
+        .send('The following fields are required: name, movie, slug')
+    }
+
+    const newVillain = {
+      name, movie, slug
+    }
+
+    const villain = await models.villains.create(newVillain)
+
+    return response.status(201).send(villain)
+  } catch (error) {
+    return response.status(500).send('unable to add new villain, please try again')
   }
-
-  const newVillain = {
-    name, movie, slug
-  }
-
-  const villain = await models.villains.create(newVillain)
-
-  return response.status(201).send(villain)
 }
 
 module.exports = {
